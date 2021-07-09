@@ -1,0 +1,21 @@
+[12:09 PM, 11/15/2020] Saikat Das: Write a program to find larger of two numbers using function. //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: 2. Write a program to find the sum of digits of any number using function //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: 3. Write a program that returns sum of squares of all odd numbers from 1 to 25. //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Using function //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Programs for today's lab is Matrix multiplication and swap the values of two variable using call by value and test whether it is working or not... //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Program to dynamically allocate a 2D array (pointer to pointer .. **) //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Write a program to dynamically allocate a 2D array using pointer to an array. //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Write a program to show the use of realloac () //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Write a program to access dynamically allocated memory as a 1D array(subscripting pointer variable). //NOTE DONE
+
+ Program to dynamically allocate 2D array using array of pointers(subscripting pointer to an array)
+[12:09 PM, 11/15/2020] Saikat Das: Implement matrix multiplication using pointer to array.
+[12:09 PM, 11/15/2020] Saikat Das: Write the main function by your own
+[12:09 PM, 11/15/2020] Saikat Das: And some missing/incorrect statements... Correct it by yourself
+[12:09 PM, 11/15/2020] Saikat Das: The code is incomplete one
+[12:09 PM, 11/15/2020] Saikat Das: And 2nd one is multiplication of polynomials using array
+[12:09 PM, 11/15/2020] Saikat Das: Program for today's lab is creation of linked list from scratch
+[12:09 PM, 11/15/2020] Saikat Das: Class started... You may join... Topic sparse matrix multiplication and DMA using double pointer //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Program for today's lab... Implementing Queue using array as well as linked lists...,  Circular Queue using array,    Priority Queue using Sorted linked lists (Ascending Priority Queue) //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Today's program... Quick sort and merge sort //NOTE DONE
+[12:09 PM, 11/15/2020] Saikat Das: Program for today's lab.... Insertion sort and selection sort //NOTE DONE
