@@ -12,7 +12,7 @@ This repository contains almost all the `basic` programs that I have created usi
 
 ## `PLATFORM AND COMPILER USED`
 
-Visual Studio Code Editor was used to create these programs.
+[Visual Studio Code](https://code.visualstudio.com/download) Editor was used to create these programs.  
 MinGW GCC compiler was used
 
 ##
