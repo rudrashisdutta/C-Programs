@@ -12,15 +12,12 @@ void main()
         scanf("%d", &arr_rkd_354[i_rkd_354]);
     }
 
-    int smallest_rkd_354 = arr_rkd_354[0];
+    int smallest_rkd_354 = arr_rkd_354[0], largest_rkd_354 = arr_rkd_354[0];
     for (int i_rkd_354 = 1; i_rkd_354 < n_rkd_354; i_rkd_354++)
     {
         if (arr_rkd_354[i_rkd_354] < smallest_rkd_354)
             smallest_rkd_354 = arr_rkd_354[i_rkd_354];
-    }
-    int largest_rkd_354 = arr_rkd_354[0];
-    for (int i_rkd_354 = 1; i_rkd_354 < n_rkd_354; i_rkd_354++)
-    {
+
         if (arr_rkd_354[i_rkd_354] > largest_rkd_354)
             largest_rkd_354 = arr_rkd_354[i_rkd_354];
     }
