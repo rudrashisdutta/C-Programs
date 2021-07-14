@@ -361,3 +361,7 @@ desktop.ini
 
 # My personalised Bin Folder
 .xbin/
+# Submission Files
+*.pdf
+*.jp*g
+*.png
