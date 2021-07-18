@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 void isPrime(int x_rkd_354)
 {
     int i_rkd_354 = 2, d_rkd_354 = 0;
@@ -22,7 +23,10 @@ void isPrime(int x_rkd_354)
 void main()
 {
     int x_rkd_354;
-    printf("Enter the number:  ");
+    clock_t t1 = clock();
+    printf("Enter the number:  %ld", t1);
     scanf("%d", &x_rkd_354);
     isPrime(x_rkd_354);
+    t1=clock();
+    printf("Enter the number:  %ld", t1);
 }
