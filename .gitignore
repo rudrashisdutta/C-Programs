@@ -355,6 +355,7 @@ MigrationBackup/
 
 # Executables
 *.exe
+!run.exe
 
 # Google Drive File Stream
 desktop.ini
