@@ -4,15 +4,11 @@ void main()
 {
     time_t start, end;
     start = time(NULL);
-    //Here we will type the code
-    int n; // size
-    printf("Enter size");
+    int n, a[100];
+    printf("Enter the number of elements:");
     scanf("%d", &n);
-    int a[100];
-    int key = 0;
-    int j = 0;
-    int c = 0;
-    printf("Enter array elements\n");
+    int key = 0, j = 0, c = 0;
+    printf("Enter array elements:\n");
     for (int i = 0; i < n; i++)
         scanf("%d", &a[i]);
     for (int i = 1; i < n; i++)

@@ -1,7 +1,7 @@
 #include <stdio.h>
 int square_root(int n)
 {
-    if (n == 0 | n == 1)
+    if (n == 0 || n == 1)
     {
         return n;
     }
