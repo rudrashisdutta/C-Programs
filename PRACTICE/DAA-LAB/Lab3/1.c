@@ -2,37 +2,35 @@
 #include <time.h>
 void main()
 {
-    int n_rkd_354;
-    printf("Enter size of array:\n");
-    scanf("%d", &n_rkd_354);
-    int arr[100];
-    int i, key, j, step = 0;
-    printf("Enter the elements\n");
-    for (i = 0; i < n_rkd_354; i++)
+    time_t start, end;
+    start = time(NULL);
+    //Here we will type the code
+    int n; // size
+    printf("Enter size");
+    scanf("%d", &n);
+    int a[100];
+    int key = 0;
+    int j = 0;
+    int c = 0;
+    printf("Enter array elements\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+    for (int i = 1; i < n; i++)
     {
-        scanf("%d", &arr[i]);
-    }
-    clock_t time_req = clock();
-    for (i = 1; i < n_rkd_354; i++)
-    {
-        key = arr[i];
+        key = a[i];
         j = i - 1;
-        while (j >= 0 && arr[j] > key)
+        while (j >= 0 && a[j] > key)
         {
-            arr[j + 1] = arr[j];
+            a[j + 1] = a[j];
             j = j - 1;
-            step++;
+            c++;
         }
-        arr[j + 1] = key;
+        a[j + 1] = key;
     }
-    time_req = clock() - time_req;
-    printf("Array after insertion sort is:\n");
-    for (i = 0; i < n_rkd_354; i++)
-    {
-        printf("%d, ", arr[i]);
-    }
-
-    printf("No of steps are:%d\n", step);
-    double total = (double)(time_req) / CLOCKS_PER_SEC;
-    printf("Total Execution time: %lf\n", total);
+    printf("Sorted Array: \n ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", a[i]);
+    end = time(NULL);
+    printf("\n Time taken to print sum is %.2f seconds", difftime(end, start));
+    printf("\n Loop ran in step count = %d", c);
 }

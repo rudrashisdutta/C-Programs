@@ -1,63 +1,61 @@
 #include <stdio.h>
-
-//O(n square and O(1) space)
-void count_freq1(int n, int nums[])
+#include <math.h>
+void findnn(int arr[], int n)
 {
-
+    int maxCount = 0;
+    int index = -1;
     for (int i = 0; i < n; i++)
     {
         int count = 0;
         for (int j = 0; j < n; j++)
         {
-            if (nums[j] == nums[i])
+            if (arr[i] == arr[j])
                 count++;
-            if (count >= (n / 2))
-            {
-                printf("yes\n");
-                return;
-            }
         }
-    }
-    printf("no\n");
-}
-
-// O(n) and O(1) extra space
-void count_freq2(int n, int nums[])
-{
-    int count = 0;
-    int candidate = -1;
-    for (int i = 0; i < n; i++)
-    {
-        if (count == 0)
+        if (count > maxCount)
         {
-            candidate = nums[i];
+            maxCount = count;
+            index = i;
         }
-        count += (nums[i] == candidate) ? 1 : -1;
     }
-    count = 0;
-    for (int i = 0; i < n; i++)
-    {
-        if (nums[i] == candidate)
-            count++;
-    }
-    if (count >= (n / 2))
-    {
-        printf("yes\n");
-    }
+    if (maxCount > n / 2)
+        printf(" Yes , element is present");
     else
-        printf("no\n");
+        printf("No Element Present");
+}
+int findn(int A[], int n)
+{
+    int m, i = 0;
+    for (int j = 0; j < n; j++)
+    {
+        if (i == 0)
+        {
+            m = A[j], i = 1;
+        }
+        else
+        {
+            (m == A[j]) ? i++ : i--;
+        }
+    }
+    return m;
 }
 void main()
 {
-    int n;
-    printf("Enter size of array:\n");
+    int arr[100], n;
+    printf("Enter the size of the array:");
     scanf("%d", &n);
-    int nums[100];
-    printf("Enter the elements\n");
+    printf("Enter the array elements:");
     for (int i = 0; i < n; i++)
     {
-        scanf("%d", &nums[i]);
+        scanf("%d", &arr[i]);
     }
-    count_freq1(n, nums);
-    count_freq2(n, nums);
+    findnn(arr, n);
+    if (findn(arr, n) != arr[n - 1])
+    {
+        printf("\nYes , element is present");
+    }
+    else
+    {
+        printf("\nNo Element Present");
+    }
 }
