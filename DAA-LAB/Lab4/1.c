@@ -1,52 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-int binarysearch(int a[], int low, int high, int item, int c)
+int count = 0;
+int binary(int arr[], int l, int r, int x, int c1, int c2)
 {
-    if (low <= high)
+    if (r >= l)
     {
-        int mid = (low + high) / 2;
-        if (a[mid] == item)
-        {
-            c++;
-            printf("steps taken by binaru search is %d\n", c);
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == x)
             return mid;
-        }
-        else if (item < a[mid])
+        if (arr[mid] > x)
         {
-            c++;
-            binarysearch(a, low, mid - 1, item, c);
+            c1 = c1 + 1;
+            return binary(arr, l, mid - 1, x, c1, c2);
         }
-        else
+        c2 = c2 + 1;
+        count = c1 + c2;
+        return binary(arr, mid + 1, r, x, c1, c2);
+    }
+    count = c1 + c2;
+    return -1;
+}
+void ascending(int number[], int n)
+{
+    int i, j, a;
+    for (i = 0; i < n; ++i)
+    {
+        for (j = i + 1; j < n; ++j)
         {
-            c++;
-            binarysearch(a, mid + 1, high, item, c);
+            if (number[i] > number[j])
+            {
+                a = number[i];
+                number[i] = number[j];
+                number[j] = a;
+            }
         }
     }
-
-    else
-        return -1;
 }
-
-int main()
+void main()
 {
-    int n;
-    printf("enter the size of array : ");
+    int r, n, x;
+    printf("Enter the value of n:- ");
     scanf("%d", &n);
     int arr[100];
-    printf("enter the elements : \n");
     for (int i = 0; i < n; i++)
-        scanf("%d", &arr[i]);
-    int item;
-    printf("enter the element to be searched : ");
-    scanf("%d", &item);
-    clock_t time;
-    time = clock();
-    int c = 0;
-    int k = binarysearch(arr, 0, n, item, c);
-    printf("item found at location %d\n", k + 1);
-    time = clock() - time;
-    double time_taken = ((double)time) / CLOCKS_PER_SEC;
-    printf("Total Time = %f\n", time_taken);
-    return 0;
+        arr[i] = rand();
+    ascending(arr, n);
+    printf("Array Elements:- ");
+    for (int i = 0; i < n; i++)
+        printf("%d\n", arr[i]);
+    printf("\n");
+    printf("Enter the value to search:- ");
+    scanf("%d", &x);
+    r = binary(arr, 0, n - 1, x, 0, 0);
+    printf("Time Complexity:- %d\n", count);
+    if (r == -1)
+        printf("Element is not present.");
+    else
+        printf("Element is present at index %d", r);
 }

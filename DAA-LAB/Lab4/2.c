@@ -1,23 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
-int merge(int arr[], int l, int m, int r)
+#include <time.h>
+long inf = 1e9;
+int comp = 0;
+void merge(int arr[], int l, int m, int r)
 {
-    int i, j, k, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0;
+    int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
     int L[100], R[100];
+    L[n1] = inf;
+    R[n2] = inf;
     for (i = 0; i < n1; i++)
-    {
         L[i] = arr[l + i];
-        c1++;
-    }
     for (j = 0; j < n2; j++)
-    {
         R[j] = arr[m + 1 + j];
-        c2++;
-    }
-    L[n1] = 2147483647;
-    R[n2] = 2147483647;
     i = 0;
     j = 0;
     k = l;
@@ -25,52 +22,42 @@ int merge(int arr[], int l, int m, int r)
     {
         if (L[i] <= R[j])
         {
-            c3++;
             arr[k] = L[i];
             i++;
         }
         else
         {
-            c4++;
             arr[k] = R[j];
             j++;
         }
         k++;
     }
+
     while (i < n1)
     {
         arr[k] = L[i];
-        c5++;
         i++;
         k++;
     }
+
     while (j < n2)
     {
         arr[k] = R[j];
-        c6++;
         j++;
         k++;
     }
-    return c1 + c2 + c3 + c4 + c5 + c6;
 }
-int mergeSort(int arr[], int l, int r, int c1, int c2)
+void mergeSort(int arr[], int l, int r)
 {
     if (l < r)
     {
+        comp++;
         int m = l + (r - l) / 2;
-        c1 += 1;
-        mergeSort(arr, l, m, c1, c2);
-        c2 += 1;
-        mergeSort(arr, m + 1, r, c1, c2);
-        int c = merge(arr, l, m, r);
-        return c1 + c2 + c;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        merge(arr, l, m, r);
     }
-}
-void printArray(int A[], int s)
-{
-    for (int i = 0; i < s; i++)
-        printf("%d ", A[i]);
-    printf("\n");
 }
 void descending(int number[], int n)
 {
@@ -88,28 +75,64 @@ void descending(int number[], int n)
         }
     }
 }
-int main()
+void printArray(int A[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+        printf("%d ", A[i]);
+    printf("\n");
+}
+void main()
 {
     int n;
-    printf("Enter the number of elements:- ");
+    int arr[50], x;
+    printf("enter array size:");
     scanf("%d", &n);
-    int arr[100];
     for (int i = 0; i < n; i++)
         arr[i] = rand();
-    printf("Array before sorting:-\n");
+    /*time = clock();
+    mergeSort(arr, 0, n - 1);
+    printf("\nArray is \n");
     printArray(arr, n);
-    int c = mergeSort(arr, 0, n - 1, 0, 0);
-    printf("\nArray after sorting:-\n");
+    time = clock() - time;
+    double time_taken = ((double)time) / CLOCKS_PER_SEC;
+    printf("Total Time = %f\n", time_taken);
+    printf("\nThe no of times it is looped %d\n", comp);*/
+    
+    double time_taken;
+    printf("\n\nArray Before Sorting: \n");
     printArray(arr, n);
-    printf("Time complexity for random data:- %d\n", c);
+    clock_t time = clock();
+    mergeSort(arr, 0, n - 1);
+    printf("Array after sorting:-\n");
     printArray(arr, n);
-    c = 0;
-    c = mergeSort(arr, 0, n - 1, 0, 0);
-    printf("Time complexity for ascending data:- %d\n", c);
+    time = clock() - time;
+    time_taken = ((double)time) / CLOCKS_PER_SEC;
+    printf("The no of times it is looped for random data:- %d\n", comp);
+    printf("Total Time = %f\n", time_taken);
+
+    comp = 0;
+    printf("\n\nArray Before Sorting: \n");
+    printArray(arr, n);
+    clock_t time0 = clock();
+    mergeSort(arr, 0, n - 1);
+    printf("Array after sorting:-\n");
+    printArray(arr, n);
+    time0 = clock() - time0;
+    time_taken = ((double)time0) / CLOCKS_PER_SEC;
+    printf("The no of times it is looped for ascending data:- %d\n", comp);
+    printf("Total Time = %f\n", time_taken);
+
     descending(arr, n);
+    comp = 0;
+    printf("\n\nArray Before Sorting: \n");
     printArray(arr, n);
-    c = 0;
-    c = mergeSort(arr, 0, n - 1, 0, 0);
-    printf("Time complexity for descending data:- %d\n", c);
-    return 0;
+    clock_t time1 = clock();
+    mergeSort(arr, 0, n - 1);
+    printf("Array after sorting:-\n");
+    printArray(arr, n);
+    time1 = clock() - time1;
+    time_taken = ((double)time1) / CLOCKS_PER_SEC;
+    printf("The no of times it is looped for descending data:- %d\n", comp);
+    printf("Total Time = %f\n", time_taken);
 }
