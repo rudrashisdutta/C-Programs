@@ -43,7 +43,7 @@ int main()
     scanf("%d", &n);
     int arr[100];
     for (int i = 0; i < n; i++)
-        arr[i] = rand();
+        scanf("%d", &arr[i]);
     ascending(arr, n);
     printf("Array Elements:- ");
     for (int i = 0; i < n; i++)
