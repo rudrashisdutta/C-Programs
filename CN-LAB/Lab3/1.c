@@ -22,7 +22,7 @@ void main()
     memset(&(my_addr.sin_zero), '\0', 8);
     int b = bind(sockfd, (struct sockaddr *)&my_addr, sizeof(struct sockaddr));
     if (b == -1)
-        printf("bind failed");
+        printf("\nBind failed");
     else
-        printf("bind created");
+        printf("\nBind created");
 }
