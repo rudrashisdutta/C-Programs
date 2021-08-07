@@ -49,7 +49,7 @@ void main()
     int *nums = (int *)malloc(sizeof(int) * size);
 
     for (int i = 0; i < size; i++)
-        nums[i] = rand();
+        scanf("%d",&nums[i]);
 
     clock_t t = clock();
     QuickSort(nums, 0, size - 1);
