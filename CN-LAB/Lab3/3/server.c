@@ -1,84 +1,67 @@
 #include <stdio.h>
-#include <netdb.h>
-#include <netinet/in.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
-#include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <ctype.h>
+#include <string.h>
 
-#define MAX 80
 #define PORT 8080
-#define SA struct sockaddr
+#define MAXLINE 1024
 
-void func(int sockfd)
+void main()
 {
-    char buff[MAX];
-    int n;
-    for (;;)
+    int sockfd;
+    struct sockaddr_in servaddr, cliaddr;
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
     {
-        bzero(buff, MAX);
+        perror("socket creation failed");
+        exit(EXIT_FAILURE);
+    }
 
-        read(sockfd, buff, sizeof(buff));
-
-        printf("From client: %s", buff);
-        bzero(buff, MAX);
-        n = 0;
-
-        if (strncmp("exit", buff, 4) == 0)
+    memset(&servaddr, 0, sizeof(servaddr));
+    memset(&cliaddr, 0, sizeof(cliaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = INADDR_ANY;
+    servaddr.sin_port = htons(PORT);
+    if (bind(sockfd, (const struct sockaddr *)&servaddr,
+             sizeof(servaddr)) < 0)
+    {
+        perror("bind failed");
+        exit(EXIT_FAILURE);
+    }
+    char res[MAXLINE], input[MAXLINE];
+    int len, ch;
+    len = sizeof(cliaddr);
+    while (1)
+    {
+        printf("Waiting for reply:\n");
+        recvfrom(sockfd, &res, sizeof(res),
+                 0, (struct sockaddr *)&servaddr,
+                 &len);
+        printf("Client : %s", res);
+        if (strcmp(res, "exit\n") == 0)
         {
-            printf("Server Exit...\n");
+            strcpy(input, "exit");
+            sendto(sockfd, &input, sizeof(input),
+                   0, (const struct sockaddr *)&servaddr,
+                   sizeof(servaddr));
+            printf("Client exited the chat!'\n");
+            break;
+        }
+        printf("\nEnter message to send:");
+        fgets(input, MAXLINE, stdin);
+        sendto(sockfd, &input, sizeof(input),
+               0, (const struct sockaddr *)&servaddr,
+               sizeof(servaddr));
+        if (strcmp(input, "exit\n") == 0)
+        {
+            printf("You exited the chat!\n");
             break;
         }
     }
-}
-
-// Driver function
-int main()
-{
-    int sockfd, connfd, len;
-    struct sockaddr_in servaddr, cli;
-
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd == -1)
-    {
-        printf("socket creation failed...\n");
-        exit(0);
-    }
-    else
-        printf("Socket successfully created..\n");
-    bzero(&servaddr, sizeof(servaddr));
-
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(PORT);
-
-    if ((bind(sockfd, (SA *)&servaddr, sizeof(servaddr))) != 0)
-    {
-        printf("socket bind failed...\n");
-        exit(0);
-    }
-    else
-        printf("Socket successfully binded..\n");
-
-    if ((listen(sockfd, 5)) != 0)
-    {
-        printf("Listen failed...\n");
-        exit(0);
-    }
-    else
-        printf("Server listening..\n");
-    len = sizeof(cli);
-
-    connfd = accept(sockfd, (SA *)&cli, &len);
-    if (connfd < 0)
-    {
-        printf("server acccept failed...\n");
-        exit(0);
-    }
-    else
-        printf("server acccept the client...\n");
-
-    func(connfd);
-
     close(sockfd);
 }

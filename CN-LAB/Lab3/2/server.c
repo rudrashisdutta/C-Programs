@@ -1,17 +1,19 @@
 #include <stdio.h>
-#include <netdb.h>
-#include <netinet/in.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
-#include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <ctype.h>
+#include <string.h>
 
 #define MAX 80
 #define PORT 8080
 #define SA struct sockaddr
 
-// Driver function
-int main()
+void main()
 {
     int sockfd, connfd, len;
     struct sockaddr_in servaddr, cli;
@@ -55,8 +57,6 @@ int main()
     }
     else
         printf("server acccept the client...\n");
-
-    // func(connfd);
 
     close(sockfd);
 }
