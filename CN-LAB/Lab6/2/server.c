@@ -1,23 +1,19 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
 struct student
 {
     int roll;
     char name[100];
     int marks;
-};
-#define MYPORT 4952
-#define MAXBUFLEN 200
+} std[10];
 int main()
 {
-    struct student std[5];
     std[0].roll = 1906354;
     strcpy(std[0].name, "Rudrashis Kumar Dutta");
     std[0].marks = 90;
@@ -37,83 +33,42 @@ int main()
     std[4].roll = 1929339;
     strcpy(std[4].name, "Nikita Jain");
     std[4].marks = 93;
-
-    int check = 0, index, roll = -1;
-    int sockfd;
-    struct sockaddr_in my_addr;
-    struct sockaddr_in their_addr;
-    socklen_t addr_len;
-    int numbytes1, numbytes2, numbytes3, numbytes4, numbytes5;
-    int buf;
-    char name[100], add[100];
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-    {
-        perror("socket");
-        exit(1);
-    }
-    my_addr.sin_family = AF_INET;
-    my_addr.sin_port = htons(MYPORT);
-    my_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    int x;
-    memset(my_addr.sin_zero, '\0', sizeof my_addr.sin_zero);
-    if ((x = bind(sockfd, (struct sockaddr *)&my_addr, sizeof my_addr)) == -1)
-    {
-        perror("bind");
-        exit(1);
-    }
-    printf("SERVER ONLINE .... %d%d\n", sockfd, x);
+    int sockfd, fd1, length, i;
+    int buf = -1, marks;
+    char name[100];
+    struct sockaddr_in sa_addr, cl_addr;
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    sa_addr.sin_family = AF_INET;
+    sa_addr.sin_addr.s_addr = INADDR_ANY;
+    sa_addr.sin_port = htons(6007);
+    memset(sa_addr.sin_zero, '\0', sizeof(sa_addr.sin_zero));
+    i = bind(sockfd, (struct sockaddr *)&sa_addr, sizeof(sa_addr));
+    printf("test %d%d\n", sockfd, i);
     listen(sockfd, 5);
-    int length = sizeof(their_addr);
-    int fd1 = accept(sockfd, (struct sockaddr *)&their_addr, &length);
-
-
-    addr_len = sizeof their_addr;
-    if ((numbytes5 = recvfrom(sockfd, &buf, sizeof(buf), 0,
-                              (struct sockaddr *)&their_addr, &addr_len)) == -1)
+    length = sizeof(cl_addr);
+    fd1 = accept(sockfd, (struct sockaddr *)&cl_addr, &length);
+    recv(fd1, &buf, sizeof(buf), 0);
+    int flag = 0;
+    for (int i = 0; i < 10; i++)
     {
-        perror("recvfrom");
-        exit(1);
-    }
-    for (int i = 0; i < 5; i++)
-    {
-        if (buf == std[i].roll)
+        if (std[i].roll == buf)
         {
-            check = 1;
-            index = i;
-            break;
+            buf = std[i].roll;
+            strcpy(name, std[i].name);
+            marks = std[i].marks;
+            flag = 1;
         }
     }
-    if (check == 0)
+    if (flag == 0)
     {
-        if ((numbytes1 = sendto(sockfd, &roll, sizeof(roll), 0,
-                                (struct sockaddr *)&their_addr, sizeof their_addr)) == -1)
-        {
-            perror("sendto");
-            exit(1);
-        }
+        buf = -1;
+        send(fd1, &buf, sizeof(buf), 0);
     }
-    if (check == 1)
+    else
     {
-        if ((numbytes2 = sendto(sockfd, &std[index].roll, sizeof(std[index].roll), 0,
-                                (struct sockaddr *)&their_addr, sizeof their_addr)) == -1)
-        {
-            perror("sendto");
-            exit(1);
-        }
-        strcpy(name, std[index].name);
-        if ((numbytes3 = sendto(sockfd, name, strlen(name), 0,
-                                (struct sockaddr *)&their_addr, sizeof their_addr)) == -1)
-        {
-            perror("sendto");
-            exit(1);
-        }
-        if ((numbytes4 = sendto(sockfd, &std[index].marks, sizeof(std[index].marks), 0,
-                                (struct sockaddr *)&their_addr, sizeof their_addr)) == -1)
-        {
-            perror("sendto");
-            exit(1);
-        }
+        send(fd1, &buf, sizeof(buf), 0);
+        send(fd1, name, 100, 0);
+        send(fd1, &marks, sizeof(int), 0);
     }
-
-    return 0;
+    close(fd1);
 }
