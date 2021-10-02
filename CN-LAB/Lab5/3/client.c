@@ -16,7 +16,7 @@ int main()
     server_address.sin_port = htons(8800);
     server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
     i = connect(sock, (struct sockaddr *)&server_address, sizeof(server_address));
-    int buf[5] = {1, 3, 5, 3, 4};
+    int buf[5] = {12, 43, 2, 6, 0};
     send(sock, buf, 5 * sizeof(int), 0);
     for (i = 0; i < 5; i++)
     {

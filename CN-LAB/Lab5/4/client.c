@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 int main()
 {
-    int a[5] = {1, 2, 3, 4, 5};
+    int a[5] = {10, 11, 12, 13, 14};
     struct sockaddr_in servaddr = {0};
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd == -1)

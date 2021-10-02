@@ -15,7 +15,7 @@ int main()
     serveraddr.sin_port = htons(8800);
     serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     i = bind(server_socket, (struct sockaddr *)&serveraddr, sizeof(serveraddr));
-    printf("ONLINE .... %d%d\n", server_socket, i);
+    printf("Server coming Online .... %d%d\n", server_socket, i);
     listen(server_socket, 5);
     int client_socket;
     len = sizeof(client_address);

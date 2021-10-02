@@ -19,7 +19,7 @@ int main()
     i = connect(sock, (struct sockaddr *)&server_address, sizeof(server_address));
     for (i = 0; i < 50; i++)
         buf[i] = '\0';
-    strcpy(buf, "DIABLO");
+    strcpy(buf, "RUDRASHIS");
     send(sock, buf, 50, 0);
     printf("%s\n", buf);
     close(sock);
