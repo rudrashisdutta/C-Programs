@@ -7,7 +7,7 @@
 #include<unistd.h>
 #include<time.h>
 
-#define MYPORT 9000
+#define MYPORT 6001
 int mySocket;
 struct sockaddr_in serverAddress, clientAddress;
 void connectToServer();

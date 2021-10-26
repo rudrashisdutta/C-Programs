@@ -6,7 +6,7 @@
 #include<netinet/in.h>
 #include<unistd.h>
 
-#define MYPORT 9000
+#define MYPORT 6001
 int serverSocket, clientSocket;
 struct sockaddr_in serverAddress, clientAddress;
 void connectToClient();
