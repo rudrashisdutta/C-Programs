@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-int maximum(int x, int y) {
+int maximum(int x, int y)
+{
     if (x > y)
         return x;
     else
         return y;
 }
-void lcs(char *X, char *Y, int m, int n) {
+void lcs(char *X, char *Y, int m, int n)
+{
     int L[m + 1][n + 1];
 
     for (int i = 0; i <= m; i++)
@@ -24,7 +27,7 @@ void lcs(char *X, char *Y, int m, int n) {
         }
     }
     int index = L[m][n];
-    printf("length of lcs is %d\n", index);
+    printf("Length of lcs is %d\n", index);
     char lcs[index + 1];
     lcs[index] = '\0';
     int i = m, j = n;
@@ -44,10 +47,16 @@ void lcs(char *X, char *Y, int m, int n) {
     }
     printf("%s", lcs);
 }
-void main() {
+void main()
+{
     char X[] = "10010101";
     char Y[] = "010110110";
+    clock_t time;
+    time = clock();
     int m = strlen(X);
     int n = strlen(Y);
     lcs(X, Y, m, n);
+    time = clock() - time;
+    double time_taken = ((double)time) / CLOCKS_PER_SEC;
+    printf("\n\nTotal time = %f\n", time_taken);
 }
