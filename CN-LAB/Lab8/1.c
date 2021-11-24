@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include <sys/time.h>
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <stdio.h>
 #define STDIN 0
 int main()
 {
