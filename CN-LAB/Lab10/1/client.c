@@ -1,36 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
+#include <sys/types.h>
 #include <arpa/inet.h>
-#include <fcntl.h>
-#include <string.h>
+#include <netinet/in.h>
 #include <unistd.h>
+#include <string.h>
+
+#define MYPORT 9000
+int mySocket;
+struct sockaddr_in serverAddress, clientAddress;
+void connectToServer();
+void closeConnection();
+
 int main()
 {
-    int i, sockfd;
-    char buf[100];
-    struct sockaddr_in sa_addr;
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    sa_addr.sin_family = AF_INET;
-    sa_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    sa_addr.sin_port = htons(6000);
-    memset(sa_addr.sin_zero, '\0', sizeof sa_addr.sin_zero);
-    i = connect(sockfd, (struct sockaddr *)&sa_addr, sizeof(sa_addr));
-    if (i == -1)
+    connectToServer();
+
+    char buffer1[128], buffer2[128];
+    printf("Enter name : ");
+    // scanf("%[^\n]",buffer1);
+    gets(buffer1);
+    send(mySocket, &buffer1, sizeof(buffer1), 0);
+    recv(mySocket, &buffer2, sizeof(buffer2), 0);
+    puts(buffer2);
+    printf("\n");
+
+    closeConnection();
+    return 0;
+}
+
+void connectToServer()
+{
+    if ((mySocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        printf("failed!");
-        exit(0);
+        printf("socket() error!\n");
+        exit(-1);
     }
-    printf("Enter your full name: ");
-    fgets(buf, 100, stdin);
-    send(sockfd, buf, 100, 0);
-    recv(sockfd, buf, 100, 0);
-    int ctr = sizeof(buf) / sizeof(char);
-    for (int i = 0; i < ctr; i++)
+    printf("Socket created successfully!\n");
+
+    clientAddress.sin_family = AF_INET;
+    clientAddress.sin_port = htons(MYPORT);
+    clientAddress.sin_addr.s_addr = INADDR_ANY;
+
+    printf("Sending connect request at port %d...\n", MYPORT);
+    if (connect(mySocket, (struct sockaddr *)&clientAddress, (socklen_t)sizeof(clientAddress)) == -1)
     {
-        printf("%c", buf[i]);
+        printf("connect error()!\n");
+        exit(-1);
     }
-    close(sockfd);
+
+    printf("\n*** TCP connection established successfully! ***\n\n");
+    return;
+}
+
+void closeConnection()
+{
+    close(mySocket);
+    printf("\n*** Connection closed! ***\n\n");
+    return;
 }
